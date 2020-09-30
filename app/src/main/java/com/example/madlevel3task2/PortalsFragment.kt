@@ -1,11 +1,13 @@
 package com.example.madlevel3task2
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,8 +43,18 @@ class PortalsFragment : Fragment() {
             DividerItemDecoration(context,
                 DividerItemDecoration.VERTICAL)
         )
-//        observeAddPortalResult()
-//        createItemTouchHelper().attachToRecyclerView(rvPortals)
+        observeAddPortalResult()
+    }
+    private fun observeAddPortalResult() {
+        setFragmentResultListener(REQ_PORTAL_KEY) { key, bundle ->
+            bundle.getString(BUNDLE_PORTAL_KEY)?.let {
+                val portal = Portal(it)
+
+                portals.add(portal)
+                portalAdapter.notifyDataSetChanged()
+            } ?: Log.e("ReminderFragment", "Request triggered, but empty reminder text!")
+
+        }
     }
 }
 
