@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_portal.view.*
 
-class PortalAdapter(private val portals: List<Portal>) : RecyclerView.Adapter<PortalAdapter.ViewHolder>(){
+class PortalAdapter(private val portals: List<Portal>, val clickListener: (Portal) -> Unit) :
+    RecyclerView.Adapter<PortalAdapter.ViewHolder>() {
 
     /**
      * Creates and returns a ViewHolder object, inflating a standard layout called simple_list_item_1.
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
         return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_portal, parent, false)
         )
@@ -35,6 +37,8 @@ class PortalAdapter(private val portals: List<Portal>) : RecyclerView.Adapter<Po
 
         fun databind(portal: Portal) {
             itemView.tvPortal.text = portal.portalText
+            itemView.tvPortalLink.text = portal.portalLink
+            itemView.setOnClickListener{clickListener(portal)}
         }
     }
 

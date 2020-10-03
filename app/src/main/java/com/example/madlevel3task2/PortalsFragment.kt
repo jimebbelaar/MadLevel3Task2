@@ -1,11 +1,13 @@
 package com.example.madlevel3task2
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.browser.customtabs.CustomTabsIntent
 import android.widget.Button
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
@@ -20,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_portal.*
 class PortalsFragment : Fragment() {
 
     private val portals = arrayListOf<Portal>()
-    private val portalAdapter = PortalAdapter(portals)
+    private val portalAdapter = PortalAdapter(portals) { portal: Portal -> onPortalClick(portal) }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +34,7 @@ class PortalsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeAddPortalResult()
         initViews()
         }
     private fun initViews() {
@@ -45,11 +48,15 @@ class PortalsFragment : Fragment() {
         )
         observeAddPortalResult()
     }
+    private fun onPortalClick(portal: Portal) {
+        CustomTabsIntent.Builder().build().launchUrl(this.context, Uri.parse(portal.portalLink))
+    }
     private fun observeAddPortalResult() {
         setFragmentResultListener(REQ_PORTAL_KEY) { key, bundle ->
             bundle.getString(BUNDLE_PORTAL_KEY)?.let {
-                val portal = Portal(it)
-
+                val title = bundle.getString("title")
+                val url = bundle.getString("url")
+                val portal = Portal(title.toString(), url.toString())
                 portals.add(portal)
                 portalAdapter.notifyDataSetChanged()
             } ?: Log.e("ReminderFragment", "Request triggered, but empty reminder text!")
