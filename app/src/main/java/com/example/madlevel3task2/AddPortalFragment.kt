@@ -16,9 +16,6 @@ import kotlinx.android.synthetic.main.fragment_add_portal.*
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 
-const val REQ_PORTAL_KEY = "req_portal"
-const val BUNDLE_PORTAL_KEY = "bundle_portal"
-
 class AddPortalFragment : Fragment() {
 
     override fun onCreateView(
@@ -36,12 +33,12 @@ class AddPortalFragment : Fragment() {
         }
     }
     private fun onAddPortal() {
-        val portalText = etPortalTitle.text.toString()
-        val portalLink = etPortalUrl.text.toString()
+        val portalName = etPortalName.text.toString()
+        val portalLink = etPortalLink.text.toString()
 
-        if (portalText.isNotBlank()) {
+        if (portalName.isNotBlank()) {
             //set the data as fragmentResult, we are listening for REQ_PORTAL_KEY in PortalsFragment!
-            setFragmentResult(REQ_PORTAL_KEY, bundleOf("title" to portalText, "url" to portalLink))
+            setFragmentResult("req_portal", bundleOf("portalName" to portalName, "portLink" to portalLink))
 
             //"pop" the backstack, this means we destroy
             //this fragment and go back to the PortalsFragment

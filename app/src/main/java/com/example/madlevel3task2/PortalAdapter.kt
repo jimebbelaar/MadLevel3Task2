@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.madlevel3task2.model.Portal
 import kotlinx.android.synthetic.main.item_portal.view.*
 
 class PortalAdapter(private val portals: List<Portal>, val clickListener: (Portal) -> Unit) :
@@ -36,7 +37,7 @@ class PortalAdapter(private val portals: List<Portal>, val clickListener: (Porta
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun databind(portal: Portal) {
-            itemView.tvPortal.text = portal.portalText
+            itemView.tvPortalName.text = portal.portalName
             itemView.tvPortalLink.text = portal.portalLink
             itemView.setOnClickListener{clickListener(portal)}
         }

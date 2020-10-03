@@ -1,6 +1,7 @@
-package com.example.madlevel3task2
+package com.example.madlevel3task2.model
 
-data class Portal(
-    var portalText: String,
-    var portalLink: String
-)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class Portal(var portalName: String, var portalLink: String) : Parcelable

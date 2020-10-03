@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPortalTitle"
+            android:id="@+id/etPortalName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Title" />
@@ -35,7 +35,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPortalUrl"
+            android:id="@+id/etPortalLink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="URL"

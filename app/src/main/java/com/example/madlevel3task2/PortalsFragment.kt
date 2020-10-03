@@ -12,9 +12,11 @@ import android.widget.Button
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_portal.*
+import com.example.madlevel3task2.model.Portal
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -37,32 +39,31 @@ class PortalsFragment : Fragment() {
         observeAddPortalResult()
         initViews()
         }
+
     private fun initViews() {
-        // Initialize the recycler view with a linear layout manager, adapter
-        rvPortals.layoutManager =
-            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        rvPortals.layoutManager = GridLayoutManager(context, 2)
         rvPortals.adapter = portalAdapter
         rvPortals.addItemDecoration(
-            DividerItemDecoration(context,
-                DividerItemDecoration.VERTICAL)
+            DividerItemDecoration(
+                context,
+                DividerItemDecoration.VERTICAL
+            )
         )
-        observeAddPortalResult()
     }
     private fun onPortalClick(portal: Portal) {
         CustomTabsIntent.Builder().build().launchUrl(this.context, Uri.parse(portal.portalLink))
     }
     private fun observeAddPortalResult() {
-        setFragmentResultListener(REQ_PORTAL_KEY) { key, bundle ->
-            bundle.getString(BUNDLE_PORTAL_KEY)?.let {
-                val title = bundle.getString("title")
-                val url = bundle.getString("url")
-                val portal = Portal(title.toString(), url.toString())
+        setFragmentResultListener("req_portal") { key, bundle ->
+                val portalName = bundle.getString("portalName")
+                val portalLink = bundle.getString("portalLink")
+                val portal = Portal(portalName.toString(), portalLink.toString())
                 portals.add(portal)
                 portalAdapter.notifyDataSetChanged()
             } ?: Log.e("ReminderFragment", "Request triggered, but empty reminder text!")
 
         }
-    }
 }
+
 
 
